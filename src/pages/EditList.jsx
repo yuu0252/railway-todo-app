@@ -15,14 +15,14 @@ export const EditList = () => {
   const handleTitleChange = (e) => setTitle(e.target.value);
   const onUpdateList = () => {
     const data = {
-      title: title,
+      title: title
     };
 
     axios
       .put(`${url}/lists/${listId}`, data, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
+          authorization: `Bearer ${cookies.token}`
+        }
       })
       .then(() => {
         navigate('/');
@@ -36,8 +36,8 @@ export const EditList = () => {
     axios
       .delete(`${url}/lists/${listId}`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
+          authorization: `Bearer ${cookies.token}`
+        }
       })
       .then(() => {
         navigate('/');
@@ -51,8 +51,8 @@ export const EditList = () => {
     axios
       .get(`${url}/lists/${listId}`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
+          authorization: `Bearer ${cookies.token}`
+        }
       })
       .then((res) => {
         const list = res.data;

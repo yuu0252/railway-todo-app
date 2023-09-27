@@ -1,22 +1,59 @@
+@mixin tab {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin pc {
+  @media screen and (min-width: 1000px) {
+    @content;
+  }
+}
+
 .taskList {
   margin: 50px auto;
   list-style: none;
   width: 1000px;
+
+  @include tab {
+    width: calc(100% - 30px);
+    padding: 0 15px;
+  }
 }
 
 .list-header {
   display: flex;
   justify-content: space-between;
+
+  @include tab {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+    h2 {
+      width: 100%;
+    }
+  }
 }
 
 .list-menu {
   text-align: right;
+
+  @include tab {
+    text-align: left;
+  }
 }
 
 .list-tab {
   list-style: none;
   display: flex;
   overflow-x: auto;
+
+  @include tab {
+    overflow-x: visible;
+    flex-wrap: wrap;
+    row-gap: 15px;
+    margin-top: 15px;
+  }
 }
 
 .list-tab-item {
@@ -28,6 +65,10 @@
   border: solid 1px #242f9b;
   justify-content: center;
   align-items: center;
+
+  @include tab {
+    width: calc(100% - 50px);
+  }
 }
 
 .active {
@@ -46,7 +87,7 @@
 
 .task-item {
   list-style-type: none;
-  height: 70px;
+  height: auto;
   width: calc(100% - 25px);
   background-color: #f5f5f5;
   padding-left: 25px;

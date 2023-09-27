@@ -1,0 +1,19 @@
+@mixin phone {
+  @media screen and (max-width: 319px) {
+    @content;
+  }
+}
+
+#limits-container {
+  max-width: 450px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include phone {
+    width: 100%;
+  }
+}
+
+select {
+  padding: 10px 5px;
+}

@@ -5,12 +5,15 @@ import { url } from '../const';
 import { Header } from '../components/Header';
 import './newTask.scss';
 import { useNavigate } from 'react-router-dom';
+import { SetLimits } from '../components/limits/SetLimits';
+import GetCurrentDate from '../components/functions/GetCurrentDate';
 
 export const NewTask = () => {
   const [selectListId, setSelectListId] = useState();
   const [lists, setLists] = useState([]);
   const [title, setTitle] = useState('');
   const [detail, setDetail] = useState('');
+  const [limitToTask, setLimitToTask] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [cookies] = useCookies();
   const navigate = useNavigate();
@@ -22,13 +25,14 @@ export const NewTask = () => {
       title: title,
       detail: detail,
       done: false,
+      limit: limitToTask
     };
 
     axios
       .post(`${url}/lists/${selectListId}/tasks`, data, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
+          authorization: `Bearer ${cookies.token}`
+        }
       })
       .then(() => {
         navigate('/');
@@ -42,8 +46,8 @@ export const NewTask = () => {
     axios
       .get(`${url}/lists`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
+          authorization: `Bearer ${cookies.token}`
+        }
       })
       .then((res) => {
         setLists(res.data);
@@ -88,6 +92,11 @@ export const NewTask = () => {
             type="text"
             onChange={handleDetailChange}
             className="new-task-detail"
+          />
+          <br />
+          <SetLimits
+            setLimitToTask={setLimitToTask}
+            defaultDate={GetCurrentDate()}
           />
           <br />
           <button

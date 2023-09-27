@@ -1,8 +1,19 @@
 @charset "utf-8";
 
+@mixin tab {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
 .new-list {
   width: 1000px;
   margin: 0 auto;
+
+  @include tab {
+    width: calc(100% - 30px);
+    padding: 0 15px;
+  }
 }
 
 .new-list-form {
@@ -12,6 +23,10 @@
 .new-list-title {
   width: 300px;
   margin-bottom: 25px;
+
+  @include tab {
+    width: 100%;
+  }
 }
 
 .new-list-button {
@@ -20,4 +35,8 @@
   width: 80px;
   height: 40px;
   border-radius: 5px;
+
+  @include tab {
+    width: 100%;
+  }
 }

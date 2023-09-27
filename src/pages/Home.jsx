@@ -5,6 +5,12 @@ import axios from 'axios';
 import { Header } from '../components/Header';
 import { url } from '../const';
 import './home.scss';
+import GetExistLimitDate from '../components/functions/GetExistLimitDate';
+import CheckLimit from '../components/functions/CheckLimit';
+import ToFullTime from '../components/functions/ToFullTime';
+import GetCurrentDate from '../components/functions/GetCurrentDate';
+import GetLimitDate from '../components/functions/GetLimitDate';
+import CalculateRemainingTime from '../components/functions/CalculateRemainingTime';
 
 export const Home = () => {
   const [isDoneDisplay, setIsDoneDisplay] = useState('todo'); // todo->未完了 done->完了
@@ -18,8 +24,8 @@ export const Home = () => {
     axios
       .get(`${url}/lists`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
+          authorization: `Bearer ${cookies.token}`
+        }
       })
       .then((res) => {
         setLists(res.data);
@@ -36,8 +42,8 @@ export const Home = () => {
       axios
         .get(`${url}/lists/${listId}/tasks`, {
           headers: {
-            authorization: `Bearer ${cookies.token}`,
-          },
+            authorization: `Bearer ${cookies.token}`
+          }
         })
         .then((res) => {
           setTasks(res.data.tasks);
@@ -53,8 +59,8 @@ export const Home = () => {
     axios
       .get(`${url}/lists/${id}/tasks`, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
+          authorization: `Bearer ${cookies.token}`
+        }
       })
       .then((res) => {
         setTasks(res.data.tasks);
@@ -63,6 +69,7 @@ export const Home = () => {
         setErrorMessage(`タスクの取得に失敗しました。${err}`);
       });
   };
+
   return (
     <div>
       <Header />
@@ -82,14 +89,16 @@ export const Home = () => {
               </p>
             </div>
           </div>
-          <ul className="list-tab">
+          <ul className="list-tab" role="tablist">
             {lists.map((list, key) => {
               const isActive = list.id === selectListId;
               return (
                 <li
                   key={key}
                   className={`list-tab-item ${isActive ? 'active' : ''}`}
-                  onClick={() => handleSelectList(list.id)}
+                  onFocus={() => handleSelectList(list.id)}
+                  role="tab"
+                  tabIndex={key}
                 >
                   {list.title}
                 </li>
@@ -125,6 +134,23 @@ export const Home = () => {
 // 表示するタスク
 const Tasks = (props) => {
   const { tasks, selectListId, isDoneDisplay } = props;
+
+  const isExpired = (taskLimit) => {
+    let res = '';
+    CheckLimit(
+      ToFullTime(GetCurrentDate()),
+      ToFullTime(GetLimitDate(taskLimit.split(/[^0-9]/)))
+    )
+      ? (res = (
+          <>
+            <p>{GetExistLimitDate(taskLimit)}</p>
+            <p>{CalculateRemainingTime(taskLimit)}</p>
+          </>
+        ))
+      : (res = '期限切れ');
+    return res;
+  };
+
   if (tasks === null) return <></>;
 
   if (isDoneDisplay == 'done') {
@@ -165,6 +191,10 @@ const Tasks = (props) => {
               {task.title}
               <br />
               {task.done ? '完了' : '未完了'}
+              <br />
+              {task.limit != undefined
+                ? isExpired(task.limit)
+                : '期限は設定されていません'}
             </Link>
           </li>
         ))}

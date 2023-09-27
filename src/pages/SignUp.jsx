@@ -24,7 +24,7 @@ export const SignUp = () => {
     const data = {
       email: email,
       name: name,
-      password: password,
+      password: password
     };
 
     axios

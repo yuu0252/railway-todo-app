@@ -1,8 +1,19 @@
 @charset "utf-8";
 
+@mixin tab {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
 .signin {
   width: 500px;
   margin: 0 auto;
+
+  @include tab {
+    width: calc(100% - 30px);
+    padding: 0 15px;
+  }
 }
 
 .signin-form {
@@ -28,6 +39,10 @@
   width: 100px;
   height: 40px;
   border-radius: 5px;
+
+  @include tab {
+    width: 100%;
+  }
 }
 
 .error-message {

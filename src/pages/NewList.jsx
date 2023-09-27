@@ -14,14 +14,14 @@ export const NewList = () => {
   const handleTitleChange = (e) => setTitle(e.target.value);
   const onCreateList = () => {
     const data = {
-      title: title,
+      title: title
     };
 
     axios
       .post(`${url}/lists`, data, {
         headers: {
-          authorization: `Bearer ${cookies.token}`,
-        },
+          authorization: `Bearer ${cookies.token}`
+        }
       })
       .then(() => {
         navigate('/');
