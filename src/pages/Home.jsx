@@ -7,9 +7,6 @@ import { url } from '../const';
 import './home.scss';
 import GetExistLimitDate from '../components/functions/GetExistLimitDate';
 import CheckLimit from '../components/functions/CheckLimit';
-import ToFullTime from '../components/functions/ToFullTime';
-import GetCurrentDate from '../components/functions/GetCurrentDate';
-import GetLimitDate from '../components/functions/GetLimitDate';
 import CalculateRemainingTime from '../components/functions/CalculateRemainingTime';
 
 export const Home = () => {
@@ -135,16 +132,13 @@ export const Home = () => {
 const Tasks = (props) => {
   const { tasks, selectListId, isDoneDisplay } = props;
 
-  const isExpired = (taskLimit) => {
+  const isExpired = (limitToTask) => {
     let res = '';
-    CheckLimit(
-      ToFullTime(GetCurrentDate()),
-      ToFullTime(GetLimitDate(taskLimit.split(/[^0-9]/)))
-    )
+    CheckLimit(limitToTask)
       ? (res = (
           <>
-            <p>{GetExistLimitDate(taskLimit)}</p>
-            <p>{CalculateRemainingTime(taskLimit)}</p>
+            <p>{GetExistLimitDate(limitToTask)}</p>
+            <p>{CalculateRemainingTime(limitToTask)}</p>
           </>
         ))
       : (res = '期限切れ');

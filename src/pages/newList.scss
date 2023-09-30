@@ -6,13 +6,19 @@
   }
 }
 
-.new-list {
-  width: 1000px;
-  margin: 0 auto;
+@mixin pc {
+  @media screen and (min-width: 1000px) {
+    @content;
+  }
+}
 
-  @include tab {
-    width: calc(100% - 30px);
-    padding: 0 15px;
+.new-list {
+  margin: 0 auto;
+  width: calc(100% - 30px);
+  padding: 0 15px;
+
+  @include pc {
+    width: 1000px;
   }
 }
 
@@ -21,22 +27,22 @@
 }
 
 .new-list-title {
-  width: 300px;
+  width: 100%;
   margin-bottom: 25px;
-
-  @include tab {
-    width: 100%;
+  box-sizing: border-box;
+  @include pc {
+    width: 300px;
   }
 }
 
 .new-list-button {
   background-color: #242f9b;
   color: #ffffff;
-  width: 80px;
+  width: 100%;
   height: 40px;
   border-radius: 5px;
 
-  @include tab {
-    width: 100%;
+  @include pc {
+    width: 80px;
   }
 }

@@ -13,11 +13,11 @@
 .taskList {
   margin: 50px auto;
   list-style: none;
-  width: 1000px;
+  width: calc(100% - 30px);
+  padding: 0 15px;
 
-  @include tab {
-    width: calc(100% - 30px);
-    padding: 0 15px;
+  @include pc {
+    width: 1000px;
   }
 }
 

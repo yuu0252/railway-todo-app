@@ -7,6 +7,7 @@ import './newTask.scss';
 import { useNavigate } from 'react-router-dom';
 import { SetLimits } from '../components/limits/SetLimits';
 import GetCurrentDate from '../components/functions/GetCurrentDate';
+import NormalizeDate from '../components/functions/NormalizeDate';
 
 export const NewTask = () => {
   const [selectListId, setSelectListId] = useState();
@@ -96,7 +97,9 @@ export const NewTask = () => {
           <br />
           <SetLimits
             setLimitToTask={setLimitToTask}
-            defaultDate={GetCurrentDate()}
+            defaultDate={
+              limitToTask != '' ? limitToTask : NormalizeDate(GetCurrentDate())
+            }
           />
           <br />
           <button

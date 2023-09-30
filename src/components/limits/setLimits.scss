@@ -1,19 +1,34 @@
-@mixin phone {
-  @media screen and (max-width: 319px) {
+@mixin tab {
+  @media screen and (max-width: 767px) {
     @content;
   }
 }
 
-#limits-container {
-  max-width: 450px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  @include phone {
-    width: 100%;
+@mixin pc {
+  @media screen and (min-width: 1000px) {
+    @content;
   }
 }
 
-select {
-  padding: 10px 5px;
+#set-limit {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @include tab {
+    justify-content: center;
+    align-items: center;
+  }
+
+  @include pc {
+    width: 400px;
+  }
+
+  & > label {
+    margin-bottom: 15px;
+  }
+
+  & > input {
+    width: 100%;
+  }
 }

@@ -12,6 +12,7 @@ import GetLimitDate from '../components/functions/GetLimitDate';
 import GetCurrentDate from '../components/functions/GetCurrentDate';
 import CheckLimit from '../components/functions/CheckLimit';
 import ToFullTime from '../components/functions/ToFullTime';
+import NormalizeDate from '../components/functions/NormalizeDate';
 
 export const EditTask = () => {
   const navigate = useNavigate();
@@ -20,9 +21,9 @@ export const EditTask = () => {
   const [title, setTitle] = useState('');
   const [detail, setDetail] = useState('');
   const [isDone, setIsDone] = useState();
-  const [existLimit, setExistLimit] = useState('');
   const [limitToTask, setLimitToTask] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [fetchLimit, setFetchLimit] = useState('');
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDetailChange = (e) => setDetail(e.target.value);
   const handleIsDoneChange = (e) => setIsDone(e.target.value === 'done');
@@ -77,7 +78,8 @@ export const EditTask = () => {
         setDetail(task.detail);
         setIsDone(task.done);
         if (task.limit != undefined) {
-          setExistLimit(task.limit);
+          setLimitToTask(task.limit);
+          setFetchLimit(task.limit);
         }
       })
       .catch((err) => {
@@ -110,19 +112,15 @@ export const EditTask = () => {
             value={detail}
           />
           <br />
-          {console.log(existLimit)}
-          {existLimit != '' ? (
-            CheckLimit(
-              ToFullTime(GetCurrentDate()),
-              ToFullTime(GetLimitDate(existLimit.split(/[^0-9]/)))
-            ) ? (
+          {fetchLimit != '' ? (
+            CheckLimit(fetchLimit) ? (
               <div>
-                <p>{GetExistLimitDate(existLimit)}</p>
-                <p>{CalculateRemainingTime(existLimit)}</p>
+                <p>{GetExistLimitDate(fetchLimit)}</p>
+                <p>{CalculateRemainingTime(fetchLimit)}</p>
               </div>
             ) : (
               <div>
-                <p>{GetExistLimitDate(existLimit)}</p>
+                <p>{GetExistLimitDate(fetchLimit)}</p>
                 <p>期限切れ</p>
               </div>
             )
@@ -130,13 +128,10 @@ export const EditTask = () => {
             <p>期限は設定されていません</p>
           )}
           <br />
-          {console.log(existLimit)}
           <SetLimits
             setLimitToTask={setLimitToTask}
             defaultDate={
-              existLimit != ''
-                ? GetLimitDate(existLimit.split(/[^0-9]/).map(Number))
-                : GetCurrentDate()
+              limitToTask != '' ? limitToTask : NormalizeDate(GetCurrentDate())
             }
           />
           <br />

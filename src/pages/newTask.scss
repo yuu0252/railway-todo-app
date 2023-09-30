@@ -6,13 +6,19 @@
   }
 }
 
-.new-task {
-  width: 1000px;
-  margin: 0 auto;
+@mixin pc {
+  @media screen and (min-width: 1000px) {
+    @content;
+  }
+}
 
-  @include tab {
-    width: calc(100% - 30px);
-    padding: 0 15px;
+.new-task {
+  margin: 0 auto;
+  width: calc(100% - 30px);
+  padding: 0 15px;
+
+  @include pc {
+    width: 1000px;
   }
 }
 
@@ -23,10 +29,10 @@
 .new-task-select-list,
 .new-task-title,
 .new-task-detail {
-  width: 400px;
+  width: 100%;
   margin-bottom: 25px;
-  @include tab {
-    width: 100%;
+  @include pc {
+    width: 400px;
   }
 }
 
